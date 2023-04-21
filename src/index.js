@@ -1,5 +1,5 @@
-import { dataValidator } from './utils/validator.js';
-import { getData } from './utils/getData.js';
+import { dataValidator } from './app/utils/validator.js';
+import { getData } from './app/utils/getData.js';
 
 let isDataValid = false;
 
