@@ -1,4 +1,4 @@
-import { printError } from './messenger.js';
+import { errors, messages } from './messages.js';
 
 const validatePolynomial = (polynomial) => {
   const regex = /[0-5]/g;
@@ -22,10 +22,20 @@ const dataValidator = (data) => {
   const isPolynomialValid = validatePolynomial(polynomial);
   const isListNumberValid = validateListNumber(listNumber);
 
-  if (!isPolynomialValid) printError('invalidPolynomial');
-  if (!isListNumberValid) printError('invalidListNumber');
+  if (!isPolynomialValid || !isListNumberValid) {
+    console.log(messages.emptyLineMsg);
+    console.log(errors.invalidData);
 
-  return !isPolynomialValid || !isListNumberValid ? false : true;
+    if (!isPolynomialValid) console.log(errors.invalidPolynomial);
+    if (!isListNumberValid) console.log(errors.invalidListNumber);
+    
+    console.log(messages.tryAgainMsg);
+    console.log(messages.emptyLineMsg);
+
+    return false;
+  }
+
+  return true;
 };
 
 export { dataValidator };

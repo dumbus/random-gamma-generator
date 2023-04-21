@@ -1,18 +1,10 @@
-import { stdin as input, stdout as output } from 'node:process';
-import readline from 'node:readline/promises';
-
 import { dataValidator } from './utils/validator.js';
+import { getData } from './utils/getData.js';
 
-const rl = readline.createInterface({ input, output });
+let isDataValid = false;
 
-const polynomial = await rl.question('Введите характеристический многочлен согласно варианту:');
+while (!isDataValid) {
+  const data = await getData();
 
-const listNumber = await rl.question('Введите ваш номер в списке группы:');
-
-const data = { polynomial, listNumber };
-
-const isDataValid = dataValidator(data);
-
-console.log(isDataValid);
-
-rl.close();
+  isDataValid = dataValidator(data);
+}
