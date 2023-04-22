@@ -6,6 +6,8 @@ import { getStartState } from './app/registerParamsCalculation/getStartState.js'
 import { getAddictiveBits } from './app/registerParamsCalculation/getAddictiveBits.js';
 
 import { findAllPeriods } from './app/periodsCalculation/findAllPeriods.js';
+import { findRecurrentSequence } from './app/recurrentSequenceCalculation/findRecurrentSequence.js';
+import { getFullRecurrentSequence } from './app/recurrentSequenceCalculation/getFullRecurrentSequence.js';
 
 let isDataValid = false;
 
@@ -31,4 +33,11 @@ console.log(`Start state: ${startState}`); // print to user
 
 const allPeriods = findAllPeriods(startState, addictiveBits);
 
-console.log(allPeriods);
+// console.log(allPeriods);
+
+const recurrentSequence = findRecurrentSequence(allPeriods);
+
+// const fullRecurrentSequence = getFullRecurrentSequence(recurrentSequence);
+
+getFullRecurrentSequence(recurrentSequence);
+
