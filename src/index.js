@@ -1,5 +1,5 @@
 import { getData } from './app/utils/getData.js';
-import { dataValidator } from './app/utils/validator.js';
+import { validateData } from './app/utils/validator.js';
 
 import { getBinaryPolynomial } from './app/registerParamsCalc/getBinaryPolynomial.js';
 import { getStartState } from './app/registerParamsCalc/getStartState.js';
@@ -22,7 +22,7 @@ let data;
 while (!isDataValid) {
   data = await getData();
 
-  isDataValid = dataValidator(data);
+  isDataValid = validateData(data);
 }
 
 const { polynomial, listNumber } = data;

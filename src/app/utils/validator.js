@@ -16,7 +16,7 @@ const validateListNumber = (listNumber) => {
   return isValid;
 };
 
-const dataValidator = (data) => {
+const validateData = (data) => {
   const { polynomial, listNumber } = data;
 
   const isPolynomialValid = validatePolynomial(polynomial);
@@ -38,4 +38,4 @@ const dataValidator = (data) => {
   return true;
 };
 
-export { dataValidator };
+export { validateData };
