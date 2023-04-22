@@ -1,14 +1,14 @@
 const getAddictiveBits = (binaryPolynomial) => {
   const valuablePolynomial = binaryPolynomial.slice(1);
-  const addictiveBitsIndexes = [];
+  const addictiveBits = [];
 
   for (let i = 0; i < valuablePolynomial.length; i++) {
     if (valuablePolynomial[i] === '1') {
-      addictiveBitsIndexes.push(i);
+      addictiveBits.push(i);
     }
   }
 
-  return addictiveBitsIndexes;
+  return addictiveBits;
 };
 
 export { getAddictiveBits };

@@ -5,8 +5,7 @@ import { getBinaryPolynomial } from './app/registerParams/getBinaryPolynomial.js
 import { getStartState } from './app/registerParams/getStartState.js';
 import { getAddictiveBits } from './app/registerParams/getAddictiveBits.js';
 
-import { getSumFromState } from './app/algorithm/getSumFromState.js';
-import { getNewState } from './app/algorithm/getNewState.js';
+import { getPeriod } from './app/algorithm/getPeriod.js';
 
 let isDataValid = false;
 
@@ -24,11 +23,10 @@ const binaryPolynomial = getBinaryPolynomial(polynomial);
 const startState = getStartState(listNumber);
 const addictiveBits = getAddictiveBits(binaryPolynomial);
 
-console.log(getBinaryPolynomial(polynomial)); // print to user
-console.log(getStartState(listNumber)); // print to user
+console.log(`Binary polynomial: ${binaryPolynomial}`); // print to user
+console.log(`Start state: ${startState}`); // print to user
 
-console.log(getAddictiveBits(binaryPolynomial)); // tech info
-console.log(getSumFromState(startState, addictiveBits));
+// console.log(getAddictiveBits(binaryPolynomial)); // tech info
+// console.log(getSum(startState, addictiveBits));
 
-const sum = getSumFromState(startState, addictiveBits);
-console.log(getNewState(startState, sum));
+getPeriod(startState, addictiveBits);
