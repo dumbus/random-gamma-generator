@@ -1,11 +1,11 @@
 import { getData } from './app/utils/getData.js';
 import { dataValidator } from './app/utils/validator.js';
 
-import { getBinaryPolynomial } from './app/registerParams/getBinaryPolynomial.js';
-import { getStartState } from './app/registerParams/getStartState.js';
-import { getAddictiveBits } from './app/registerParams/getAddictiveBits.js';
+import { getBinaryPolynomial } from './app/registerParamsCalculation/getBinaryPolynomial.js';
+import { getStartState } from './app/registerParamsCalculation/getStartState.js';
+import { getAddictiveBits } from './app/registerParamsCalculation/getAddictiveBits.js';
 
-import { getPeriod } from './app/algorithm/getPeriod.js';
+import { findAllPeriods } from './app/periodsCalculation/findAllPeriods.js';
 
 let isDataValid = false;
 
@@ -29,4 +29,6 @@ console.log(`Start state: ${startState}`); // print to user
 // console.log(getAddictiveBits(binaryPolynomial)); // tech info
 // console.log(getSum(startState, addictiveBits));
 
-getPeriod(startState, addictiveBits);
+const allPeriods = findAllPeriods(startState, addictiveBits);
+
+console.log(allPeriods);

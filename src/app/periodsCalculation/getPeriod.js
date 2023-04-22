@@ -9,7 +9,8 @@ const getPeriod = (startState, addictiveBits) => {
   let state = startState;
   let sum;
 
-  let i = 0;
+  // debug
+  // let i = 0;
 
   let isPeriodFinished = false;
 
@@ -26,7 +27,7 @@ const getPeriod = (startState, addictiveBits) => {
     periodItems.push(periodItem);
 
     // debug
-    console.log(`i: ${i}, state: ${state}, sum: ${sum}`);
+    // console.log(`i: ${i}, state: ${state}, sum: ${sum}`);
 
     const newState = getNewState(state, sum);
 
@@ -36,7 +37,7 @@ const getPeriod = (startState, addictiveBits) => {
     
     state = newState;
     // debug
-    i++;
+    // i++;
   }
 
   return periodItems;
