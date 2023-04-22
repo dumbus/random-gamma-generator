@@ -39,5 +39,7 @@ const recurrentSequence = findRecurrentSequence(allPeriods);
 
 // const fullRecurrentSequence = getFullRecurrentSequence(recurrentSequence);
 
-getFullRecurrentSequence(recurrentSequence);
+const fullRecurrentSequence = getFullRecurrentSequence(recurrentSequence);
+
+console.log(fullRecurrentSequence);
 
