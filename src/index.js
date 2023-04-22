@@ -9,6 +9,8 @@ import { findAllPeriods } from './app/periodsCalc/findAllPeriods.js';
 import { getRecSeqData } from './app/recSeqCalc/getRecSeqData.js';
 import { analyzeRecSeq } from './app/recSeqCalc/analyzeRecSeq.js';
 
+import { printRecSeqAnalysisResults } from './app/utils/messages.js';
+
 // import { findRecurrentSequence } from './app/recSeqCalc/findRecSeq.js';
 // import { getFullRecurrentSequence } from './app/recSeqCalc/getFullRecurrentSequence.js';
 
@@ -36,16 +38,7 @@ const allPeriods = findAllPeriods(startState, addictiveBits); // print to user
 // console.log(allPeriods);
 
 const reqSecData = getRecSeqData(allPeriods);
-
-console.log(reqSecData);
-
 const reqSecAnalysisData = analyzeRecSeq(reqSecData);
 
-console.log(reqSecAnalysisData);
-
-// const fullRecurrentSequence = getFullRecurrentSequence(recurrentSequence);
-
-// const fullRecurrentSequence = getFullRecurrentSequence(recurrentSequence);
-
-// console.log(fullRecurrentSequence);
+printRecSeqAnalysisResults(reqSecAnalysisData);
 

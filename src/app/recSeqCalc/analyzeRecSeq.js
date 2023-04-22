@@ -46,17 +46,20 @@ const analyzeRecSeq = (recSeqData) => {
   // check if "window" property is fulfilled
   const uniqueStates = new Set(states);
 
+  const numberOfUniqueStates = uniqueStates.size;
+
   const windowProperty = {
     states,
+    numberOfUniqueStates,
     isFulfilled: true
   };
 
-  if (uniqueStates.size !== recSeqPeriod) {
+  if (numberOfUniqueStates !== recSeqPeriod) {
     windowProperty.isFulfilled = false;
   }
 
   // create object with analysis results
-  const analysisResults = {
+  const recSeqAnalysisResults = {
     recSeq,
     recSeqPeriod,
     recSeqBalance,
@@ -64,7 +67,7 @@ const analyzeRecSeq = (recSeqData) => {
     windowProperty
   };
 
-  return analysisResults;
+  return recSeqAnalysisResults;
 };
 
 export { analyzeRecSeq };
