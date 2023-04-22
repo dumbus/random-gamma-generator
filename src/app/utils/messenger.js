@@ -1,3 +1,5 @@
+import { getTable } from './getTable.js';
+
 const errors = {
   invalidData: 'Возникли ошибки при вводе данных:',
   invalidPolynomial: 'Ошибка: Неверно введён характеристический многочлен!',
@@ -12,7 +14,16 @@ const messages = {
 };
 
 const printAllPeriods = (allPeriods) => {
+  const allRounds = allPeriods.flat();
+  const numberOfPeriods = allRounds.length;
 
+  const table = getTable(allRounds, numberOfPeriods);
+
+  for (let i = 0; i < table.length; i++) {
+    const row = table[i];
+
+    console.log(row);
+  }
 };
 
 const printRecSeqAnalysisResults = (recSeqAnalysisResults) => {
@@ -79,4 +90,4 @@ const printRecSeqAnalysisResults = (recSeqAnalysisResults) => {
   }
 };
 
-export { errors, messages, printRecSeqAnalysisResults };
+export { errors, messages, printAllPeriods, printRecSeqAnalysisResults };

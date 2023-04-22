@@ -6,7 +6,7 @@ import { stdin as input, stdout as output } from 'node:process';
 // node 15.x (15.8.0)
 import readline from 'node:readline';
 
-import { messages } from './messages.js';
+import { messages } from './messenger.js';
 
 const getData = async () => {
   const rl = readline.createInterface({ input, output });

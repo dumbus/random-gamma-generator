@@ -1,4 +1,4 @@
-import { errors, messages } from './messages.js';
+import { errors, messages } from './messenger.js';
 
 const validatePolynomial = (polynomial) => {
   const regex = /[0-5]/g;
