@@ -1,16 +1,33 @@
 import { getTable } from './getTable.js';
+import { getPolynomialFormula } from './getPolynomialFormula.js';
 
 const errors = {
   invalidData: 'Возникли ошибки при вводе данных:',
   invalidPolynomial: 'Ошибка: Неверно введён характеристический многочлен!',
-  invalidListNumber: 'Ошибка: Неверно введён номер в списке группы!',
+  invalidListNumber: 'Ошибка: Неверно введён номер в списке группы!'
 };
 
 const messages = {
   inputPolynomialMsg: 'Введите характеристический многочлен согласно варианту: ',
   inputListNumberMsg: 'Введите ваш номер в списке группы: ',
   tryAgainMsg: '!!! Проверьте данные и попробуйте ещё раз !!!',
-  emptyLineMsg: '\n'
+  emptyLineMsg: ''
+};
+
+const printVariantData = (polynomial, listNumber, binaryPolynomial, startState) => {
+  const polynomialFormula = getPolynomialFormula(polynomial);
+
+  const variantMsg = 'Вариант:';
+  const polynomialFormulaMsg = `№${listNumber}: h(x) = ${polynomialFormula}`;
+  const binaryPolynomialMsg = `Коэффициенты полинома: ${binaryPolynomial}`;
+  const startStateMsg = `Начальное заполнение регистра: ${startState}`;
+
+  const messagesArr = [variantMsg, polynomialFormulaMsg, binaryPolynomialMsg, startStateMsg];
+
+  console.log(messages.emptyLineMsg);
+  for (let i = 0; i < messagesArr.length; i++) {
+    console.log(messagesArr[i]);
+  }
 };
 
 const printAllPeriods = (allPeriods) => {
@@ -18,7 +35,10 @@ const printAllPeriods = (allPeriods) => {
   const numberOfPeriods = allRounds.length;
 
   const table = getTable(allRounds, numberOfPeriods);
+  const tableMsg = 'Таблица смены состояний регистра:';
 
+  console.log(messages.emptyLineMsg);
+  console.log(tableMsg);
   for (let i = 0; i < table.length; i++) {
     const row = table[i];
 
@@ -90,4 +110,4 @@ const printRecSeqAnalysisResults = (recSeqAnalysisResults) => {
   }
 };
 
-export { errors, messages, printAllPeriods, printRecSeqAnalysisResults };
+export { errors, messages, printVariantData, printAllPeriods, printRecSeqAnalysisResults };
