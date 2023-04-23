@@ -30,4 +30,15 @@ const getData = async () => {
   return data;
 };
 
-export { getData };
+const getExitCommand = async () => {
+  const rl = readline.createInterface({ input, output });
+
+  console.log(messages.emptyLineMsg);
+  await new Promise(resolve => {
+    rl.question(messages.inputExitCommand, resolve);
+  });
+
+  rl.close();
+};
+
+export { getData, getExitCommand };

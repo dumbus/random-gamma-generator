@@ -1,4 +1,4 @@
-import { getData } from './app/utils/getData.js';
+import { getData, getExitCommand } from './app/utils/getUserInput.js';
 import { validateData } from './app/utils/validator.js';
 
 import { getBinaryPolynomial } from './app/registerParamsCalc/getBinaryPolynomial.js';
@@ -35,3 +35,5 @@ const reqSecAnalysisData = analyzeRecSeq(reqSecData);
 printVariantData(polynomial, listNumber, binaryPolynomial, startState);
 printAllPeriods(allPeriods);
 printRecSeqAnalysisResults(reqSecAnalysisData);
+
+await getExitCommand();
