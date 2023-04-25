@@ -9,7 +9,7 @@ import { findAllPeriods } from './app/periodsCalc/findAllPeriods.js';
 import { getRecSeqData } from './app/recSeqCalc/getRecSeqData.js';
 import { analyzeRecSeq } from './app/recSeqCalc/analyzeRecSeq.js';
 
-import { printVariantData, printAllPeriods, printRecSeqAnalysisResults } from './app/utils/messenger.js';
+import { printVariantData, printAllPeriods, printRecSeqAnalysisResults, printStartData } from './app/utils/messenger.js';
 
 let isDataValid = false;
 
@@ -32,8 +32,10 @@ const allPeriods = findAllPeriods(startState, addictiveBits);
 const reqSecData = getRecSeqData(allPeriods);
 const reqSecAnalysisData = analyzeRecSeq(reqSecData);
 
-printVariantData(polynomial, listNumber, binaryPolynomial, startState);
-printAllPeriods(allPeriods);
-printRecSeqAnalysisResults(reqSecAnalysisData);
+// printVariantData(polynomial, listNumber, binaryPolynomial, startState);
+// printAllPeriods(allPeriods);
+// printRecSeqAnalysisResults(reqSecAnalysisData);
+
+printStartData(polynomial, listNumber, startState);
 
 await getExitCommand();

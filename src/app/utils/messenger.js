@@ -1,5 +1,6 @@
 import { getTable } from './getTable.js';
 import { getPolynomialFormula } from './getPolynomialFormula.js';
+import { getMaxPeriodData } from '../registerParamsCalc/getMaxPeriodData.js';
 
 const errors = {
   invalidData: 'Возникли ошибки при вводе данных:',
@@ -15,15 +16,28 @@ const messages = {
   emptyLineMsg: ''
 };
 
-const printVariantData = (polynomial, listNumber, binaryPolynomial, startState) => {
+const printVariantData = (polynomial, listNumber) => {
   const polynomialFormula = getPolynomialFormula(polynomial);
 
   const variantMsg = 'Вариант:';
   const polynomialFormulaMsg = `№${listNumber}: h(x) = ${polynomialFormula}`;
-  const binaryPolynomialMsg = `Коэффициенты полинома: ${binaryPolynomial}`;
-  const startStateMsg = `Начальное заполнение регистра: ${startState}`;
 
-  const messagesArr = [variantMsg, polynomialFormulaMsg, binaryPolynomialMsg, startStateMsg];
+  const messagesArr = [variantMsg, polynomialFormulaMsg];
+
+  console.log(messages.emptyLineMsg);
+  for (let i = 0; i < messagesArr.length; i++) {
+    console.log(messagesArr[i]);
+  }
+};
+
+const printStartData = (polynomial, listNumber, startState) => {
+  const startStateMsg = `Начальное заполнение – номер по списку в двоичном виде, младший разряд справа: ${listNumber} = ${startState}`;
+
+  const { maxLengthFormula, notExistingStateMsg } = getMaxPeriodData(polynomial);
+
+  const maxPeriodMsg = `Максимальный период рекуррентной последовательности для регистра заданным примитивным многочленом: ${maxLengthFormula}, ${notExistingStateMsg}`;
+
+  const messagesArr = [startStateMsg, maxPeriodMsg];
 
   console.log(messages.emptyLineMsg);
   for (let i = 0; i < messagesArr.length; i++) {
@@ -111,4 +125,4 @@ const printRecSeqAnalysisResults = (recSeqAnalysisResults) => {
   }
 };
 
-export { errors, messages, printVariantData, printAllPeriods, printRecSeqAnalysisResults };
+export { errors, messages, printVariantData, printAllPeriods, printRecSeqAnalysisResults, printStartData };
