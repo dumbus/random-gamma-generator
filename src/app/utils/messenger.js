@@ -1,6 +1,7 @@
 import { getPolynomialFormula } from './getPolynomialFormula.js';
 import { getLongestPeriodData } from '../registerParamsCalc/getLongestPeriodData.js';
 import { getPeriodData } from './getPeriodData.js';
+import { getRecSeqAnalysis } from '../recSeqCalc/getRecSeqAnalysis.js';
 
 const errors = {
   invalidData: 'Возникли ошибки при вводе данных:',
@@ -31,13 +32,14 @@ const printVariantData = (polynomial, listNumber) => {
 };
 
 const printStartData = (polynomial, listNumber, startState) => {
+  const startDataMsg = 'Выполнение работы:';
   const startStateMsg = `Начальное заполнение – номер по списку в двоичном виде, младший разряд справа: ${listNumber} = ${startState}`;
 
   const { maxLengthFormula, notExistingStateMsg } = getLongestPeriodData(polynomial);
 
   const maxPeriodMsg = `Максимальный период рекуррентной последовательности для регистра заданным примитивным многочленом: ${maxLengthFormula}, ${notExistingStateMsg}`;
 
-  const messagesArr = [startStateMsg, maxPeriodMsg];
+  const messagesArr = [startDataMsg, startStateMsg, maxPeriodMsg];
 
   console.log(messages.emptyLineMsg);
   for (let i = 0; i < messagesArr.length; i++) {
@@ -71,18 +73,17 @@ const printAllPeriodsData = (allPeriods) => {
   }
 };
 
-const printRecSeqAnalysisResults = (recSeqAnalysisResults) => {
+const printRecSeqAnalysisResults = (allPeriods) => {
   const { 
     recSeq,
     recSeqPeriod,
     recSeqBalance,
     recSeqSeries,
     windowProperty
-  } = recSeqAnalysisResults;
+  } = getRecSeqAnalysis(allPeriods);
 
+  const analysisMsg = 'Исследуем ЛРП с наибольшим периодом:';
   const recSeqMsg = `Линейно рекуррентная последовательность: ${recSeq}.`;
-
-  const analysisMsg = 'Результаты анализа линейно рекуррентной последовательности (для периода максимальной длины):';
   const recSeqPeriodMsg = `Период последовательности: ${recSeqPeriod}.`;
   const recSeqBalanceMsg = `Баланс единиц и нулей: ${recSeqBalance.ones} единиц, ${recSeqBalance.zeroes} нулей.`;
 
@@ -123,10 +124,8 @@ const printRecSeqAnalysisResults = (recSeqAnalysisResults) => {
   const windowPropertyMsg = `Свойство "окна":\n${windowPropertyStatesStr} \n${windowPropertyNumberStr} ${windowPropertyRepeatingStr}`;
 
   // printing of results
-  const analysisMessages = [recSeqPeriodMsg, recSeqBalanceMsg, recSeqSeriesMsg, windowPropertyMsg];
+  const analysisMessages = [recSeqMsg, recSeqPeriodMsg, recSeqBalanceMsg, recSeqSeriesMsg, windowPropertyMsg];
 
-  console.log(messages.emptyLineMsg);
-  console.log(recSeqMsg);
   console.log(messages.emptyLineMsg);
   console.log(analysisMsg);
 
@@ -135,4 +134,11 @@ const printRecSeqAnalysisResults = (recSeqAnalysisResults) => {
   }
 };
 
-export { errors, messages, printVariantData, printAllPeriodsData, printRecSeqAnalysisResults, printStartData };
+const printResults = (polynomial, listNumber, startState, allPeriods) => {
+  printVariantData(polynomial, listNumber);
+  printStartData(polynomial, listNumber, startState);
+  printAllPeriodsData(allPeriods);
+  printRecSeqAnalysisResults(allPeriods);
+};
+
+export { errors, messages, printResults };
