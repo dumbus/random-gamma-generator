@@ -1,12 +1,15 @@
 import { getRawColumns } from './getRawColumns.js';
+import { getRecSeq } from '../recSeqCalc/getRecSeq.js';
 
-const getTable = (allRounds, numberOfPeriods) => {
-  const rawColumns = getRawColumns(allRounds, numberOfPeriods);
+const getPeriodData = (period) => {
+  const rawColumns = getRawColumns(period);
+  const recSeq = getRecSeq(period);
+  const periodLength = period.length;
 
   const maxStrLengthArr = [0, 0, 0];
 
   for (let i = 0; i < rawColumns.length; i++) {
-    for (let j = 0; j <= numberOfPeriods; j++) {
+    for (let j = 0; j <= periodLength; j++) {
       const currentStrLength = rawColumns[i][j].length;
 
       if (currentStrLength > maxStrLengthArr[i]) {
@@ -20,7 +23,7 @@ const getTable = (allRounds, numberOfPeriods) => {
   for(let i = 0; i < rawColumns.length; i++) {
     const currentMaxLength = maxStrLengthArr[i];
 
-    for(let j = 0; j <= numberOfPeriods; j++) {
+    for(let j = 0; j <= periodLength; j++) {
       let currentStr = rawColumns[i][j];
       const offset = currentMaxLength - currentStr.length;
 
@@ -48,7 +51,7 @@ const getTable = (allRounds, numberOfPeriods) => {
 
   const lines = [];
 
-  for (let i = 0; i <= numberOfPeriods; i++) {
+  for (let i = 0; i <= periodLength; i++) {
     const line = `| ${columns[0][i]} | ${columns[1][i]} | ${columns[2][i]} |`;
 
     lines.push(line);
@@ -63,7 +66,7 @@ const getTable = (allRounds, numberOfPeriods) => {
 
   const table = [];
 
-  for (let i = 0; i < numberOfPeriods; i++) {
+  for (let i = 0; i <= periodLength; i++) {
     const line = lines[i];
 
     table.push(divider);
@@ -71,7 +74,13 @@ const getTable = (allRounds, numberOfPeriods) => {
   }
   table.push(divider);
 
-  return table;
+  const periodData = {
+    periodTable: table,
+    periodRecSeq: recSeq,
+    periodLength
+  };
+
+  return periodData;
 };
 
-export { getTable };
+export { getPeriodData };

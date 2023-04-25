@@ -1,6 +1,6 @@
-import { getTable } from './getTable.js';
 import { getPolynomialFormula } from './getPolynomialFormula.js';
-import { getMaxPeriodData } from '../registerParamsCalc/getMaxPeriodData.js';
+import { getLongestPeriodData } from '../registerParamsCalc/getLongestPeriodData.js';
+import { getPeriodData } from './getPeriodData.js';
 
 const errors = {
   invalidData: 'Возникли ошибки при вводе данных:',
@@ -33,7 +33,7 @@ const printVariantData = (polynomial, listNumber) => {
 const printStartData = (polynomial, listNumber, startState) => {
   const startStateMsg = `Начальное заполнение – номер по списку в двоичном виде, младший разряд справа: ${listNumber} = ${startState}`;
 
-  const { maxLengthFormula, notExistingStateMsg } = getMaxPeriodData(polynomial);
+  const { maxLengthFormula, notExistingStateMsg } = getLongestPeriodData(polynomial);
 
   const maxPeriodMsg = `Максимальный период рекуррентной последовательности для регистра заданным примитивным многочленом: ${maxLengthFormula}, ${notExistingStateMsg}`;
 
@@ -45,19 +45,29 @@ const printStartData = (polynomial, listNumber, startState) => {
   }
 };
 
-const printAllPeriods = (allPeriods) => {
-  const allRounds = allPeriods.flat();
-  const numberOfPeriods = allRounds.length;
+const printAllPeriodsData = (allPeriods) => {
+  const numberOfPeriods = allPeriods.length;
 
-  const table = getTable(allRounds, numberOfPeriods);
-  const tableMsg = 'Таблица смены состояний регистра:';
+  for (let i = 0; i < numberOfPeriods; i++) {
+    const { periodTable, periodRecSeq, periodLength } = getPeriodData(allPeriods[i]);
 
-  console.log(messages.emptyLineMsg);
-  console.log(tableMsg);
-  for (let i = 0; i < table.length; i++) {
-    const row = table[i];
+    const recSeqMsg = `ЛРП: ${periodRecSeq}`;
+    const periodLengthMsg = `Период равен ${periodLength}`;
 
-    console.log(row);
+    console.log(messages.emptyLineMsg);
+    if (i === 0) {
+      console.log('Проведем моделирование работы ЛРР, представив таблицу смены его состояний:');
+    } else {
+      console.log('Выберем другое начальное заполнение, выбирая среди отсутствующих состояний, проведем моделирование:');
+    }
+
+    for (let j = 0; j < periodTable.length; j++) {
+      const row = periodTable[j];
+  
+      console.log(row);
+    }
+    console.log(recSeqMsg);
+    console.log(periodLengthMsg);
   }
 };
 
@@ -125,4 +135,4 @@ const printRecSeqAnalysisResults = (recSeqAnalysisResults) => {
   }
 };
 
-export { errors, messages, printVariantData, printAllPeriods, printRecSeqAnalysisResults, printStartData };
+export { errors, messages, printVariantData, printAllPeriodsData, printRecSeqAnalysisResults, printStartData };

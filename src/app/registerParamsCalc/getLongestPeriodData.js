@@ -1,4 +1,4 @@
-const getMaxPeriodData = (polynomial) => {
+const getLongestPeriodData = (polynomial) => {
   const maxDegree = Number(polynomial[0]);
 
   const maxPeriodLength = Math.pow(2, maxDegree) - 1;
@@ -15,4 +15,4 @@ const getMaxPeriodData = (polynomial) => {
   return maxPeriodData;
 };
 
-export { getMaxPeriodData };
+export { getLongestPeriodData };

@@ -6,10 +6,11 @@ import { getStartState } from './app/registerParamsCalc/getStartState.js';
 import { getAddictiveBits } from './app/registerParamsCalc/getAddictiveBits.js';
 
 import { findAllPeriods } from './app/periodsCalc/findAllPeriods.js';
-import { getRecSeqData } from './app/recSeqCalc/getRecSeqData.js';
-import { analyzeRecSeq } from './app/recSeqCalc/analyzeRecSeq.js';
+// import { getRecSeqData } from './app/recSeqCalc/getRecSeq.js';
+// import { analyzeRecSeq } from './app/recSeqCalc/analyzeRecSeq.js';
 
-import { printVariantData, printAllPeriods, printRecSeqAnalysisResults, printStartData } from './app/utils/messenger.js';
+// import { printVariantData, printAllPeriods, printRecSeqAnalysisResults, printStartData, } from './app/utils/messenger.js';
+import { printAllPeriodsData } from './app/utils/messenger.js';
 
 let isDataValid = false;
 
@@ -29,13 +30,15 @@ const addictiveBits = getAddictiveBits(binaryPolynomial);
 
 const allPeriods = findAllPeriods(startState, addictiveBits);
 
-const reqSecData = getRecSeqData(allPeriods);
-const reqSecAnalysisData = analyzeRecSeq(reqSecData);
+// const reqSecData = getRecSeqData(allPeriods);
+// const reqSecAnalysisData = analyzeRecSeq(reqSecData);
 
 // printVariantData(polynomial, listNumber, binaryPolynomial, startState);
 // printAllPeriods(allPeriods);
 // printRecSeqAnalysisResults(reqSecAnalysisData);
 
-printStartData(polynomial, listNumber, startState);
+// printStartData(polynomial, listNumber, startState);
+
+printAllPeriodsData(allPeriods);
 
 await getExitCommand();
