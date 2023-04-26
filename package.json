@@ -1,7 +1,7 @@
 {
-  "name": "linear-recurrent-register",
+  "name": "random-gamma-generator",
   "version": "1.0.0",
-  "description": "solver for SPbSUT cryptography laboratory work",
+  "description": "Modeling the operation of a random gamma generator and studying the characteristics of gamma",
   "main": "index.js",
   "type": "module",
   "scripts": {
