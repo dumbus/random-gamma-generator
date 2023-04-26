@@ -10,11 +10,17 @@ const getData = async () => {
   const listNumber = await rl.question(messages.inputListNumberMsg);
   let randomNumber = await rl.question(messages.inputRandomNumberMsg);
 
+  const firstNode = (await rl.question(messages.inputFirstNode)).toUpperCase();
+  const secondNode = (await rl.question(messages.inputSecondNode)).toUpperCase();
+  const thirdNode = (await rl.question(messages.inputThirdNode)).toUpperCase();
+
+  const nodes = [firstNode, secondNode, thirdNode];
+
   if (randomNumber === '') {
     randomNumber = '1';
   }
 
-  const data = { polynomial, listNumber, randomNumber };
+  const data = { polynomial, listNumber, randomNumber, nodes };
 
   rl.close();
 

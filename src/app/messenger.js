@@ -1,5 +1,6 @@
 import { getPolynomialFormula } from './utils/getPolynomialFormula.js';
 import { getStartStateFormula } from './utils/getStartStateFormula.js';
+import { getNodeList } from './utils/getNodeList.js';
 import { getLongestPeriodData } from './registerParamsCalc/getLongestPeriodData.js';
 import { getPeriodTable } from './utils/getPeriodTable.js';
 import { getRecSeqAnalysis } from './recSeqCalc/getRecSeqAnalysis.js';
@@ -9,6 +10,9 @@ const errors = {
   invalidPolynomial: 'Ошибка: Неверно введён характеристический многочлен!',
   invalidListNumber: 'Ошибка: Неверно введён номер в списке группы!',
   invalidRandomNumber: 'Ошибка: Неверно введено случайное число!',
+  invalidFirstNode: 'Ошибка: Неверно введён первый нелинейный узел!',
+  invalidSecondNode: 'Ошибка: Неверно введён второй нелинейный узел!',
+  invalidThirdNode: 'Ошибка: Неверно введён третий нелинейный узел!',
   invalidPeriod: 'Длина периода не равна максимальной, дальнейшие вычисления невозможны!'
 };
 
@@ -16,20 +20,25 @@ const messages = {
   inputPolynomialMsg: 'Введите характеристический многочлен согласно варианту: ',
   inputListNumberMsg: 'Введите ваш номер в списке группы: ',
   inputRandomNumberMsg: 'Введите случайное число, заданное преподавателем(или нажмите Enter для ввода значения по умолчанию): ',
+  inputFirstNode: 'Введите первый нелинейный узел (возможные варианты: И, ИЛИ, И-НЕ, ИЛИ-НЕ): ',
+  inputSecondNode: 'Введите второй нелинейный узел (возможные варианты: И, ИЛИ, И-НЕ, ИЛИ-НЕ): ',
+  inputThirdNode: 'Введите третий нелинейный узел (возможные варианты: УЛ, ДЖ): ',
   tryAgainMsg: '!!! Проверьте данные и попробуйте ещё раз !!!',
   inputExitCommand: '!!! Расчёты завершены, нажмите Enter, чтобы завершить выполнение программы. !!!',
   emptyLineMsg: ''
 };
 
-const printVariantData = (polynomial, listNumber, randomNumber) => {
+const printVariantData = (polynomial, listNumber, randomNumber, nodes) => {
   const polynomialFormula = getPolynomialFormula(polynomial);
   const startStateFormula = getStartStateFormula(listNumber, randomNumber);
+  const nodeList = getNodeList(nodes);
 
   const variantMsg = 'Вариант:';
   const polynomialFormulaMsg = `№${listNumber}: h(x) = ${polynomialFormula}`;
   const startStateMsg = `Начальное заполнение регистра: S = ${startStateFormula}`;
+  const nodeListMsg = `Нелинейные узлы 1, 2, 3: ${nodeList}`;
 
-  const messagesArr = [variantMsg, polynomialFormulaMsg, startStateMsg];
+  const messagesArr = [variantMsg, polynomialFormulaMsg, startStateMsg, nodeListMsg];
 
   console.log(messages.emptyLineMsg);
   for (let i = 0; i < messagesArr.length; i++) {
@@ -127,8 +136,8 @@ const printRecSeqAnalysisResults = (period) => {
   }
 };
 
-const printResults = (polynomial, listNumber, randomNumber, period) => {
-  printVariantData(polynomial, listNumber, randomNumber);
+const printResults = (polynomial, listNumber, randomNumber, period, nodes) => {
+  printVariantData(polynomial, listNumber, randomNumber, nodes);
   printStartData(polynomial, listNumber);
   printPeriodTable(period);
   printRecSeqAnalysisResults(period);

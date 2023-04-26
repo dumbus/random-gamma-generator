@@ -19,7 +19,7 @@ while (!isDataValid) {
   isDataValid = validateData(data);
 }
 
-const { polynomial, listNumber, randomNumber } = data;
+const { polynomial, listNumber, randomNumber, nodes } = data;
 
 const binaryPolynomial = getBinaryPolynomial(polynomial);
 const startState = getStartState(listNumber, randomNumber);
@@ -30,7 +30,7 @@ const period = getPeriod(startState, addictiveBits);
 const isPeriodValid = validatePeriod(period, polynomial);
 
 if (isPeriodValid) {
-  printResults(polynomial, listNumber, randomNumber, period);
+  printResults(polynomial, listNumber, randomNumber, period, nodes);
 
   // await getExitCommand();
 }
