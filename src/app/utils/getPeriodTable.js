@@ -1,9 +1,7 @@
 import { getRawColumns } from './getRawColumns.js';
-import { getRecSeq } from '../recSeqCalc/getRecSeq.js';
 
-const getPeriodData = (period) => {
+const getPeriodTable = (period) => {
   const rawColumns = getRawColumns(period);
-  const recSeq = getRecSeq(period);
   const periodLength = period.length;
 
   const maxStrLengthArr = [0, 0, 0];
@@ -74,13 +72,7 @@ const getPeriodData = (period) => {
   }
   table.push(divider);
 
-  const periodData = {
-    periodTable: table,
-    periodRecSeq: recSeq,
-    periodLength
-  };
-
-  return periodData;
+  return table;
 };
 
-export { getPeriodData };
+export { getPeriodTable };

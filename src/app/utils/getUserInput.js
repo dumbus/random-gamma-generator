@@ -1,15 +1,20 @@
 import { stdin as input, stdout as output } from 'node:process';
 import readline from 'node:readline/promises';
 
-import { messages } from './messenger.js';
+import { messages } from '../messenger.js';
 
 const getData = async () => {
   const rl = readline.createInterface({ input, output });
 
   const polynomial = await rl.question(messages.inputPolynomialMsg);
   const listNumber = await rl.question(messages.inputListNumberMsg);
+  let randomNumber = await rl.question(messages.inputRandomNumberMsg);
 
-  const data = { polynomial, listNumber };
+  if (randomNumber === '') {
+    randomNumber = '1';
+  }
+
+  const data = { polynomial, listNumber, randomNumber };
 
   rl.close();
 

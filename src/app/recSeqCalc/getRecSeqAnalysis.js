@@ -1,12 +1,10 @@
-import { getLongestPeriod } from '../utils/getLongestPeriod.js';
 import { getRecSeq } from './getRecSeq.js';
 import { getPeriodStates } from './getPeriodStates.js';
 
-const getRecSeqAnalysis = (allPeriods) => {
-  const longestPeriod = getLongestPeriod(allPeriods);
-  const states = getPeriodStates(longestPeriod);
+const getRecSeqAnalysis = (period) => {
+  const states = getPeriodStates(period);
 
-  const recSeq = getRecSeq(longestPeriod);
+  const recSeq = getRecSeq(period);
 
   // get period of recurrent sequence
   const recSeqPeriod = recSeq.length;

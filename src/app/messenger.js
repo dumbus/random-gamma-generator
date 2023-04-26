@@ -1,29 +1,35 @@
-import { getPolynomialFormula } from './getPolynomialFormula.js';
-import { getLongestPeriodData } from '../registerParamsCalc/getLongestPeriodData.js';
-import { getPeriodData } from './getPeriodData.js';
-import { getRecSeqAnalysis } from '../recSeqCalc/getRecSeqAnalysis.js';
+import { getPolynomialFormula } from './utils/getPolynomialFormula.js';
+import { getStartStateFormula } from './utils/getStartStateFormula.js';
+import { getLongestPeriodData } from './registerParamsCalc/getLongestPeriodData.js';
+import { getPeriodTable } from './utils/getPeriodTable.js';
+import { getRecSeqAnalysis } from './recSeqCalc/getRecSeqAnalysis.js';
 
 const errors = {
   invalidData: 'Возникли ошибки при вводе данных:',
   invalidPolynomial: 'Ошибка: Неверно введён характеристический многочлен!',
-  invalidListNumber: 'Ошибка: Неверно введён номер в списке группы!'
+  invalidListNumber: 'Ошибка: Неверно введён номер в списке группы!',
+  invalidRandomNumber: 'Ошибка: Неверно введено случайное число!',
+  invalidPeriod: 'Длина периода не равна максимальной, дальнейшие вычисления невозможны!'
 };
 
 const messages = {
   inputPolynomialMsg: 'Введите характеристический многочлен согласно варианту: ',
   inputListNumberMsg: 'Введите ваш номер в списке группы: ',
+  inputRandomNumberMsg: 'Введите случайное число, заданное преподавателем(или нажмите Enter для ввода значения по умолчанию): ',
   tryAgainMsg: '!!! Проверьте данные и попробуйте ещё раз !!!',
   inputExitCommand: '!!! Расчёты завершены, нажмите Enter, чтобы завершить выполнение программы. !!!',
   emptyLineMsg: ''
 };
 
-const printVariantData = (polynomial, listNumber) => {
+const printVariantData = (polynomial, listNumber, randomNumber) => {
   const polynomialFormula = getPolynomialFormula(polynomial);
+  const startStateFormula = getStartStateFormula(listNumber, randomNumber);
 
   const variantMsg = 'Вариант:';
   const polynomialFormulaMsg = `№${listNumber}: h(x) = ${polynomialFormula}`;
+  const startStateMsg = `Начальное заполнение регистра: S = ${startStateFormula}`;
 
-  const messagesArr = [variantMsg, polynomialFormulaMsg];
+  const messagesArr = [variantMsg, polynomialFormulaMsg, startStateMsg];
 
   console.log(messages.emptyLineMsg);
   for (let i = 0; i < messagesArr.length; i++) {
@@ -31,15 +37,15 @@ const printVariantData = (polynomial, listNumber) => {
   }
 };
 
-const printStartData = (polynomial, listNumber, startState) => {
+const printStartData = (polynomial) => {
   const startDataMsg = 'Выполнение работы:';
-  const startStateMsg = `Начальное заполнение – номер по списку в двоичном виде, младший разряд справа: ${listNumber} = ${startState}`;
+  // const startStateMsg = `Начальное заполнение – номер по списку в двоичном виде, младший разряд справа: ${listNumber} = ${startState}`;
 
   const { maxLengthFormula, notExistingStateMsg } = getLongestPeriodData(polynomial);
 
   const maxPeriodMsg = `Максимальный период рекуррентной последовательности для регистра заданным примитивным многочленом: ${maxLengthFormula}, ${notExistingStateMsg}`;
 
-  const messagesArr = [startDataMsg, startStateMsg, maxPeriodMsg];
+  const messagesArr = [startDataMsg, maxPeriodMsg];
 
   console.log(messages.emptyLineMsg);
   for (let i = 0; i < messagesArr.length; i++) {
@@ -47,42 +53,29 @@ const printStartData = (polynomial, listNumber, startState) => {
   }
 };
 
-const printAllPeriodsData = (allPeriods) => {
-  const numberOfPeriods = allPeriods.length;
+const printPeriodTable = (period) => {
+  const periodTable = getPeriodTable(period);
 
-  for (let i = 0; i < numberOfPeriods; i++) {
-    const { periodTable, periodRecSeq, periodLength } = getPeriodData(allPeriods[i]);
+  console.log(messages.emptyLineMsg);
+  console.log('Проведем моделирование работы ЛРР, представив таблицу смены его состояний:');
 
-    const recSeqMsg = `ЛРП: ${periodRecSeq}`;
-    const periodLengthMsg = `Период равен ${periodLength}`;
+  for (let j = 0; j < periodTable.length; j++) {
+    const row = periodTable[j];
 
-    console.log(messages.emptyLineMsg);
-    if (i === 0) {
-      console.log('Проведем моделирование работы ЛРР, представив таблицу смены его состояний:');
-    } else {
-      console.log('Выберем другое начальное заполнение, выбирая среди отсутствующих состояний, проведем моделирование:');
-    }
-
-    for (let j = 0; j < periodTable.length; j++) {
-      const row = periodTable[j];
-  
-      console.log(row);
-    }
-    console.log(recSeqMsg);
-    console.log(periodLengthMsg);
+    console.log(row);
   }
 };
 
-const printRecSeqAnalysisResults = (allPeriods) => {
+const printRecSeqAnalysisResults = (period) => {
   const { 
     recSeq,
     recSeqPeriod,
     recSeqBalance,
     recSeqSeries,
     windowProperty
-  } = getRecSeqAnalysis(allPeriods);
+  } = getRecSeqAnalysis(period);
 
-  const analysisMsg = 'Исследуем ЛРП с наибольшим периодом:';
+  const analysisMsg = 'Исследуем полученную ЛРП:';
   const recSeqMsg = `Линейно рекуррентная последовательность: ${recSeq}.`;
   const recSeqPeriodMsg = `Период последовательности: ${recSeqPeriod}.`;
   const recSeqBalanceMsg = `Баланс единиц и нулей: ${recSeqBalance.ones} единиц, ${recSeqBalance.zeroes} нулей.`;
@@ -134,11 +127,11 @@ const printRecSeqAnalysisResults = (allPeriods) => {
   }
 };
 
-const printResults = (polynomial, listNumber, startState, allPeriods) => {
-  printVariantData(polynomial, listNumber);
-  printStartData(polynomial, listNumber, startState);
-  printAllPeriodsData(allPeriods);
-  printRecSeqAnalysisResults(allPeriods);
+const printResults = (polynomial, listNumber, randomNumber, period) => {
+  printVariantData(polynomial, listNumber, randomNumber);
+  printStartData(polynomial, listNumber);
+  printPeriodTable(period);
+  printRecSeqAnalysisResults(period);
 };
 
 export { errors, messages, printResults };

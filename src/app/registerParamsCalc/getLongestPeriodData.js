@@ -8,6 +8,7 @@ const getLongestPeriodData = (polynomial) => {
   const notExistingStateMsg = `(все комбинации, кроме ${maxDegree} нулей)`;
 
   const maxPeriodData = {
+    maxPeriodLength,
     maxLengthFormula,
     notExistingStateMsg
   };

@@ -1,4 +1,4 @@
-const getStartState = (listNumber, randomNumber) => {
+const getStartStateFormula = (listNumber, randomNumber) => {
   const binListNumber = Number(listNumber).toString(2);
   const binRandomNumber = Number(randomNumber).toString(2);
 
@@ -24,7 +24,9 @@ const getStartState = (listNumber, randomNumber) => {
     }
   }
 
-  return startState;
+  const startStateFormula = `${fullBinListNumber} ⊕  ${fullBinRandomNumber} = ${startState}`;
+
+  return startStateFormula;
 };
 
-export { getStartState };
+export { getStartStateFormula };
