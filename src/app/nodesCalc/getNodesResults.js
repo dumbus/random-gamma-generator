@@ -1,7 +1,7 @@
 import { getNodeFunction } from './getNodeFunction.js';
 import { getPeriodStates } from '../periodCalc/getPeriodStates.js';
 
-const getNodesResults = (nodes, period) => {
+const getNodesResults = (period, nodes) => {
   const periodStates = getPeriodStates(period);
   
   const firstNodeFunction = getNodeFunction(nodes[0]);

@@ -11,9 +11,15 @@ import { getPeriodSums } from './app/periodCalc/getPeriodSums.js';
 import { getNodesResults } from './app/nodesCalc/getNodesResults.js';
 
 import { getRecSeq } from './app/recSeqCalc/getRecSeq.js';
-import { getRecSeqStates } from './app/recSeqCalc/getRecSeqStates.js';
 
-import { printResults } from './app/messenger.js';
+import {
+  printVariantData,
+  printStartData,
+  printPeriodTable,
+  printRecSeqAnalysisResults,
+  printNodesTable,
+  printSequences
+} from './app/messenger.js';
 
 let isDataValid = false;
 
@@ -34,18 +40,24 @@ const addictiveBits = getAddictiveBits(binaryPolynomial);
 const period = getPeriod(startState, addictiveBits);
 const periodStates = getPeriodStates(period);
 const periodSums = getPeriodSums(period);
-
 const recSeqRegister = getRecSeq(periodSums);
-const recSeqRegisterStates = getRecSeqStates(recSeqRegister);
 
 const isPeriodValid = validatePeriod(polynomial, periodStates);
 
-// const nodesResults = getNodesResults(nodes, period);
+const nodesResults = getNodesResults(period, nodes);
 
-// console.log(nodesResults);
+const firstNodeSequence = getRecSeq(nodesResults[0]);
+const secondNodeSequence = getRecSeq(nodesResults[1]);
+const thirdNodeSequence = getRecSeq(nodesResults[2]);
 
 if (isPeriodValid) {
-  printResults(polynomial, listNumber, randomNumber, period, recSeqRegister, nodes);
+  printVariantData(polynomial, listNumber, randomNumber, nodes);
+  printStartData(polynomial, listNumber);
+  printPeriodTable(period);
+  printRecSeqAnalysisResults(recSeqRegister, 'register');
+  printNodesTable(period, nodesResults);
+  printSequences(recSeqRegister, firstNodeSequence, secondNodeSequence, thirdNodeSequence);
+  printRecSeqAnalysisResults(thirdNodeSequence, 'nodes');
 
-  // await getExitCommand();
+  await getExitCommand();
 }

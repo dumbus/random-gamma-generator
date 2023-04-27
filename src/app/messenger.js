@@ -3,6 +3,7 @@ import { getStartStateFormula } from './utils/getMessageInfo/getStartStateFormul
 import { getNodeList } from './utils/getMessageInfo/getNodeList.js';
 import { getLongestPeriodData } from './utils/getMessageInfo/getLongestPeriodData.js';
 import { getPeriodTable } from './utils/getMessageInfo/getPeriodTable.js';
+import { getNodesTable } from './utils/getMessageInfo/getNodesTable.js';
 import { getRecSeqAnalysis } from './recSeqCalc/getRecSeqAnalysis.js';
 
 const errors = {
@@ -75,7 +76,36 @@ const printPeriodTable = (period) => {
   }
 };
 
-const printRecSeqAnalysisResults = (recSeq) => {
+const printNodesTable = (period, nodesResults) => {
+  const nodesTable = getNodesTable(period, nodesResults);
+
+  console.log(messages.emptyLineMsg);
+  console.log('Проведем моделирование работы формирователя случайной гаммы, представив таблицу смены его состояний:');
+
+  for (let j = 0; j < nodesTable.length; j++) {
+    const row = nodesTable[j];
+
+    console.log(row);
+  }
+};
+
+const printSequences = (recSeqRegister, firstNodeSequence, secondNodeSequence, thirdNodeSequence) => {
+  const sequencesMsg = 'Получили следующие последовательности:';
+
+  const recSeqRegisterMsg = `ЛРП:         ${recSeqRegister}`;
+  const firstNodeSequenceMsg = `Узел 1:      ${firstNodeSequence}`;
+  const secondNodeSequenceMsg = `Узел 2:      ${secondNodeSequence}`;
+  const thirdNodeSequenceMsg = `Узел 3 (ШГ): ${thirdNodeSequence}`;
+
+  const messagesArr = [sequencesMsg, recSeqRegisterMsg, firstNodeSequenceMsg, secondNodeSequenceMsg, thirdNodeSequenceMsg];
+
+  console.log(messages.emptyLineMsg);
+  for (let i = 0; i < messagesArr.length; i++) {
+    console.log(messagesArr[i]);
+  }
+};
+
+const printRecSeqAnalysisResults = (recSeq, sequenceType) => {
   const { 
     recSeqPeriod,
     recSeqBalance,
@@ -83,8 +113,22 @@ const printRecSeqAnalysisResults = (recSeq) => {
     windowProperty
   } = getRecSeqAnalysis(recSeq);
 
-  const analysisMsg = 'Исследуем полученную ЛРП:';
-  const recSeqMsg = `Линейно рекуррентная последовательность: ${recSeq}.`;
+  let sequenceName;
+  let sequenceNameDeclinated;
+
+  if (sequenceType === 'register') {
+    sequenceName = 'Линейно рекуррентная последовательность';
+    sequenceNameDeclinated = 'линейно рекуррентную последовательность';
+  } else if (sequenceType === 'nodes') {
+    sequenceName = 'Последовательность на выходе формирователя случайной гаммы';
+    sequenceNameDeclinated = 'последовательность на выходе формирователя случайной гаммы';
+  } else {
+    sequenceName = 'Последовательность';
+    sequenceNameDeclinated = 'последовательность';
+  }
+
+  const analysisMsg = `Исследуем полученную ${sequenceNameDeclinated}:`;
+  const recSeqMsg = `${sequenceName}: ${recSeq}.`;
   const recSeqPeriodMsg = `Период последовательности: ${recSeqPeriod}.`;
   const recSeqBalanceMsg = `Баланс единиц и нулей: ${recSeqBalance.ones} единиц, ${recSeqBalance.zeroes} нулей.`;
 
@@ -105,7 +149,7 @@ const printRecSeqAnalysisResults = (recSeq) => {
   const recSeqSeriesMsg = `Серии: ${seriesStr}.`;
 
   // recurrent sequence "window" property
-  const { recSeqStates, numberOfUniqueStates, isFulfilled } = windowProperty;
+  const { recSeqStates, numberOfStates, numberOfUniqueStates, isFulfilled } = windowProperty;
 
   const windowPropertyStates = [];
 
@@ -116,10 +160,10 @@ const printRecSeqAnalysisResults = (recSeq) => {
   }
 
   const windowPropertyStatesStr = windowPropertyStates.join(', ');
-  const windowPropertyNumberStr = `Число полученных комбинаций: ${numberOfUniqueStates}.`;
+  const windowPropertyNumberStr = `Число полученных комбинаций: ${numberOfStates}.`;
   const windowPropertyRepeatingStr = isFulfilled
     ? 'Среди комбинаций нет повторяющихся, следовательно, свойство "окна" выполняется.'
-    : 'Среди комбинаций есть повторяющиеся, следовательно, свойство "окна" не выполняется.';
+    : `Число не повторяющихся комбинаций: ${numberOfUniqueStates}, следовательно, свойство "окна" не выполняется.`;
 
 
   const windowPropertyMsg = `Свойство "окна":\n${windowPropertyStatesStr} \n${windowPropertyNumberStr} ${windowPropertyRepeatingStr}`;
@@ -135,11 +179,22 @@ const printRecSeqAnalysisResults = (recSeq) => {
   }
 };
 
-const printResults = (polynomial, listNumber, randomNumber, period, recSeqRegister, nodes) => {
-  printVariantData(polynomial, listNumber, randomNumber, nodes);
-  printStartData(polynomial, listNumber);
-  printPeriodTable(period);
-  printRecSeqAnalysisResults(recSeqRegister);
-};
+// const printResults = (polynomial, listNumber, randomNumber, nodes, period, recSeqRegister, nodesResults) => {
+//   printVariantData(polynomial, listNumber, randomNumber, nodes);
+//   printStartData(polynomial, listNumber);
+//   printPeriodTable(period);
+//   printRecSeqAnalysisResults(recSeqRegister);
+//   printNodesTable(period, nodesResults);
+//   printSequences(recSeqRegister, firstNodeSequence, secondNodeSequence, thirdNodeSequence);
+// };
 
-export { errors, messages, printResults };
+export {
+  errors,
+  messages,
+  printVariantData,
+  printStartData,
+  printPeriodTable,
+  printRecSeqAnalysisResults,
+  printNodesTable,
+  printSequences
+};

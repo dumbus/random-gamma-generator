@@ -52,9 +52,11 @@ const getRecSeqAnalysis = (recSeq) => {
   const uniqueStates = new Set(recSeqStates);
 
   const numberOfUniqueStates = uniqueStates.size;
+  const numberOfStates = recSeqStates.length;
 
   const windowProperty = {
     recSeqStates,
+    numberOfStates,
     numberOfUniqueStates,
     isFulfilled: true
   };
