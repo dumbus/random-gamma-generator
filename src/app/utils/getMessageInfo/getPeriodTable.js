@@ -1,7 +1,7 @@
-import { getRawColumns } from '../getRawColumns.js';
+import { getRawPeriodColumns } from '../getRawPeriodColumns.js';
 
 const getPeriodTable = (period) => {
-  const rawColumns = getRawColumns(period);
+  const rawColumns = getRawPeriodColumns(period);
   const periodLength = period.length;
 
   const maxStrLengthArr = [0, 0, 0];

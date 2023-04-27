@@ -1,4 +1,4 @@
-const getRawColumns = (period) => {
+const getRawPeriodColumns = (period) => {
   const periodLength = period.length;
 
   const rawColumns = [];
@@ -36,4 +36,4 @@ const getRawColumns = (period) => {
   return rawColumns;
 };
 
-export { getRawColumns };
+export { getRawPeriodColumns };
