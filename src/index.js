@@ -7,7 +7,11 @@ import { getAddictiveBits } from './app/registerParamsCalc/getAddictiveBits.js';
 
 import { getPeriod } from './app/periodCalc/getPeriod.js';
 import { getPeriodStates } from './app/periodCalc/getPeriodStates.js';
+import { getPeriodSums } from './app/periodCalc/getPeriodSums.js';
 import { getNodesResults } from './app/nodesCalc/getNodesResults.js';
+
+import { getRecSeq } from './app/recSeqCalc/getRecSeq.js';
+import { getRecSeqStates } from './app/recSeqCalc/getRecSeqStates.js';
 
 import { printResults } from './app/messenger.js';
 
@@ -28,16 +32,20 @@ const startState = getStartState(listNumber, randomNumber);
 const addictiveBits = getAddictiveBits(binaryPolynomial);
 
 const period = getPeriod(startState, addictiveBits);
-
-const isPeriodValid = validatePeriod(period, polynomial);
-
 const periodStates = getPeriodStates(period);
-const nodesResults = getNodesResults(nodes, periodStates);
+const periodSums = getPeriodSums(period);
 
-console.log(nodesResults);
+const recSeqRegister = getRecSeq(periodSums);
+const recSeqRegisterStates = getRecSeqStates(recSeqRegister);
+
+const isPeriodValid = validatePeriod(polynomial, periodStates);
+
+// const nodesResults = getNodesResults(nodes, period);
+
+// console.log(nodesResults);
 
 if (isPeriodValid) {
-  printResults(polynomial, listNumber, randomNumber, period, nodes);
+  printResults(polynomial, listNumber, randomNumber, period, recSeqRegister, nodes);
 
   // await getExitCommand();
 }

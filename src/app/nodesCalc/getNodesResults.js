@@ -1,6 +1,9 @@
 import { getNodeFunction } from './getNodeFunction.js';
+import { getPeriodStates } from '../periodCalc/getPeriodStates.js';
 
-const getNodesResults = (nodes, periodStates) => {
+const getNodesResults = (nodes, period) => {
+  const periodStates = getPeriodStates(period);
+  
   const firstNodeFunction = getNodeFunction(nodes[0]);
   const secondNodeFunction = getNodeFunction(nodes[1]);
   const thirdNodeFunction = getNodeFunction(nodes[2]);

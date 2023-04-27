@@ -75,10 +75,10 @@ const validateData = (data) => {
   return true;
 };
 
-const validatePeriod = (period, polynomial) => {
+const validatePeriod = (polynomial, periodStates) => {
   const { maxPeriodLength } = getLongestPeriodData(polynomial);
 
-  const currentPeriodLength = period.length;
+  const currentPeriodLength = periodStates.length;
 
   if (currentPeriodLength !== maxPeriodLength) {
     console.log(messages.emptyLineMsg);

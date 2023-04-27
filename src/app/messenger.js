@@ -75,14 +75,13 @@ const printPeriodTable = (period) => {
   }
 };
 
-const printRecSeqAnalysisResults = (period) => {
+const printRecSeqAnalysisResults = (recSeq) => {
   const { 
-    recSeq,
     recSeqPeriod,
     recSeqBalance,
     recSeqSeries,
     windowProperty
-  } = getRecSeqAnalysis(period);
+  } = getRecSeqAnalysis(recSeq);
 
   const analysisMsg = 'Исследуем полученную ЛРП:';
   const recSeqMsg = `Линейно рекуррентная последовательность: ${recSeq}.`;
@@ -106,12 +105,12 @@ const printRecSeqAnalysisResults = (period) => {
   const recSeqSeriesMsg = `Серии: ${seriesStr}.`;
 
   // recurrent sequence "window" property
-  const { states, numberOfUniqueStates, isFulfilled } = windowProperty;
+  const { recSeqStates, numberOfUniqueStates, isFulfilled } = windowProperty;
 
   const windowPropertyStates = [];
 
-  for (let i = 0; i < states.length; i++ ) {
-    const currentState = `${states[i]}`;
+  for (let i = 0; i < recSeqStates.length; i++ ) {
+    const currentState = `${recSeqStates[i]}`;
 
     windowPropertyStates.push(currentState);
   }
@@ -136,11 +135,11 @@ const printRecSeqAnalysisResults = (period) => {
   }
 };
 
-const printResults = (polynomial, listNumber, randomNumber, period, nodes) => {
+const printResults = (polynomial, listNumber, randomNumber, period, recSeqRegister, nodes) => {
   printVariantData(polynomial, listNumber, randomNumber, nodes);
   printStartData(polynomial, listNumber);
   printPeriodTable(period);
-  printRecSeqAnalysisResults(period);
+  printRecSeqAnalysisResults(recSeqRegister);
 };
 
 export { errors, messages, printResults };

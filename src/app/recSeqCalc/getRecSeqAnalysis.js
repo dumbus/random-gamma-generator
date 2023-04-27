@@ -1,10 +1,10 @@
-import { getRecSeq } from './getRecSeq.js';
-import { getPeriodStates } from '../periodCalc/getPeriodStates.js';
+// import { getRecSeq } from './getRecSeq.js';
+// import { getPeriodStates } from '../periodCalc/getPeriodStates.js';
+// import { getPeriodSums } from '../periodCalc/getPeriodSums.js';
+import { getRecSeqStates } from './getRecSeqStates.js';
 
-const getRecSeqAnalysis = (period) => {
-  const states = getPeriodStates(period);
-
-  const recSeq = getRecSeq(period);
+const getRecSeqAnalysis = (recSeq) => {
+  const recSeqStates = getRecSeqStates(recSeq);
 
   // get period of recurrent sequence
   const recSeqPeriod = recSeq.length;
@@ -49,12 +49,12 @@ const getRecSeqAnalysis = (period) => {
   }
 
   // check if "window" property is fulfilled
-  const uniqueStates = new Set(states);
+  const uniqueStates = new Set(recSeqStates);
 
   const numberOfUniqueStates = uniqueStates.size;
 
   const windowProperty = {
-    states,
+    recSeqStates,
     numberOfUniqueStates,
     isFulfilled: true
   };
@@ -65,7 +65,6 @@ const getRecSeqAnalysis = (period) => {
 
   // create object with analysis results
   const recSeqAnalysisResults = {
-    recSeq,
     recSeqPeriod,
     recSeqBalance,
     recSeqSeries,
