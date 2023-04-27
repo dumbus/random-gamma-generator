@@ -1,21 +1,20 @@
 import { getData, getExitCommand } from './app/utils/getUserInput.js';
-import { validateData, validatePeriod } from './app/validator.js';
+import { validateData } from './app/validator.js';
 
 import { getBinaryPolynomial } from './app/registerParamsCalc/getBinaryPolynomial.js';
 import { getStartState } from './app/registerParamsCalc/getStartState.js';
 import { getAddictiveBits } from './app/registerParamsCalc/getAddictiveBits.js';
 
-import { getPeriod } from './app/periodCalc/getPeriod.js';
-import { getPeriodStates } from './app/periodCalc/getPeriodStates.js';
+import { findAllPeriods } from './app/periodCalc/findAllPeriods.js';
+import { findLongestPeriod } from './app/periodCalc/findLongestPeriod.js';
 import { getPeriodSums } from './app/periodCalc/getPeriodSums.js';
 import { getNodesResults } from './app/nodesCalc/getNodesResults.js';
 
 import { getRecSeq } from './app/recSeqCalc/getRecSeq.js';
 
 import {
-  printVariantData,
-  printStartData,
-  printPeriodTable,
+  printRegisterParametersData,
+  printAllPeriodsTable,
   printRecSeqAnalysisResults,
   printNodesTable,
   printSequences
@@ -37,27 +36,22 @@ const binaryPolynomial = getBinaryPolynomial(polynomial);
 const startState = getStartState(startNumber);
 const addictiveBits = getAddictiveBits(binaryPolynomial);
 
-const period = getPeriod(startState, addictiveBits);
-const periodStates = getPeriodStates(period);
-const periodSums = getPeriodSums(period);
-const recSeqRegister = getRecSeq(periodSums);
+const allPeriods = findAllPeriods(startState, addictiveBits);
 
-const isPeriodValid = validatePeriod(polynomial, periodStates);
+const longestPeriod = findLongestPeriod(allPeriods);
+const longestPeriodSums = getPeriodSums(longestPeriod);
+const recSeqRegister = getRecSeq(longestPeriodSums);
 
-const nodesResults = getNodesResults(period, nodes);
-
+const nodesResults = getNodesResults(longestPeriod, nodes);
 const firstNodeSequence = getRecSeq(nodesResults[0]);
 const secondNodeSequence = getRecSeq(nodesResults[1]);
 const thirdNodeSequence = getRecSeq(nodesResults[2]);
 
-if (isPeriodValid) {
-  printVariantData(polynomial, startNumber, startState, nodes);
-  printStartData(polynomial, startNumber);
-  printPeriodTable(period);
-  printRecSeqAnalysisResults(recSeqRegister, 'register');
-  printNodesTable(period, nodesResults);
-  printSequences(recSeqRegister, firstNodeSequence, secondNodeSequence, thirdNodeSequence);
-  printRecSeqAnalysisResults(thirdNodeSequence, 'nodes');
+printRegisterParametersData(polynomial, binaryPolynomial, startNumber, startState, nodes);
+printAllPeriodsTable(allPeriods);
+printRecSeqAnalysisResults(recSeqRegister, 'register');
+printNodesTable(longestPeriod, nodesResults);
+printSequences(recSeqRegister, firstNodeSequence, secondNodeSequence, thirdNodeSequence);
+printRecSeqAnalysisResults(thirdNodeSequence, 'nodes');
 
-  await getExitCommand();
-}
+await getExitCommand();

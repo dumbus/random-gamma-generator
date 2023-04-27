@@ -2,6 +2,8 @@ import { getPolynomialFormula } from './utils/getMessageInfo/getPolynomialFormul
 import { getNodeList } from './utils/getMessageInfo/getNodeList.js';
 import { getLongestPeriodData } from './utils/getMessageInfo/getLongestPeriodData.js';
 import { getPeriodTable } from './utils/getMessageInfo/getPeriodTable.js';
+import { getPeriodSums } from './periodCalc/getPeriodSums.js';
+import { getRecSeq } from './recSeqCalc/getRecSeq.js';
 import { getNodesTable } from './utils/getMessageInfo/getNodesTable.js';
 import { getRecSeqAnalysis } from './recSeqCalc/getRecSeqAnalysis.js';
 
@@ -25,35 +27,33 @@ const messages = {
   inputFirstNode: 'Введите первый нелинейный узел генератора случайной гаммы (возможные варианты: И, ИЛИ, И-НЕ, ИЛИ-НЕ): ',
   inputSecondNode: 'Введите второй нелинейный узел генератора случайной гаммы (возможные варианты: И, ИЛИ, И-НЕ, ИЛИ-НЕ): ',
   inputThirdNode: 'Введите третий нелинейный узел генератора случайной гаммы (возможные варианты: УЛ, ДЖ): ',
-  tryAgainMsg: '!!! Проверьте данные и попробуйте ещё раз !!!',
+  tryAgainMsg: '!!! Проверьте введённые данные и попробуйте ещё раз !!!',
   inputExitCommand: '!!! Расчёты завершены, нажмите Enter, чтобы завершить выполнение программы. !!!',
   emptyLineMsg: ''
 };
 
-const printVariantData = (polynomial, startNumber, startState, nodes) => {
+const printRegisterParametersData = (polynomial, binaryPolynomial, startNumber, startState, nodes) => {
   const polynomialFormula = getPolynomialFormula(polynomial);
   const nodeList = getNodeList(nodes);
-
-  const variantMsg = 'Параметры регистра:';
-  const polynomialFormulaMsg = `Характеристический многочлен: h(x) = ${polynomialFormula}`;
-  const startStateMsg = `Начальное заполнение регистра: S = ${startNumber} = ${startState}`;
-  const nodeListMsg = `Нелинейные узлы 1, 2, 3: ${nodeList}`;
-
-  const messagesArr = [variantMsg, polynomialFormulaMsg, startStateMsg, nodeListMsg];
-
-  console.log(messages.emptyLineMsg);
-  for (let i = 0; i < messagesArr.length; i++) {
-    console.log(messagesArr[i]);
-  }
-};
-
-const printStartData = (polynomial) => {
-  const startDataMsg = 'Выполнение работы:';
   const { maxLengthFormula, notExistingStateMsg } = getLongestPeriodData(polynomial);
 
-  const maxPeriodMsg = `Максимальный период рекуррентной последовательности для регистра заданным примитивным многочленом: ${maxLengthFormula}, ${notExistingStateMsg}`;
+  const registerParametersMsg = 'Параметры регистра:';
+  const polynomialFormulaMsg = `Характеристический многочлен: h(x) = ${polynomialFormula}`;
+  const binaryPolynomialMsg = `Двоичное представление регистра: ${binaryPolynomial}`;
+  const startStateMsg = `Начальное заполнение регистра: S = ${startNumber} = ${startState}`;
+  const nodeListMsg = `Нелинейные узлы 1, 2, 3: ${nodeList}`;
+  const maxPeriodLength = `Максимальный период регистра: ${maxLengthFormula}, ${notExistingStateMsg}`;
+  const maxRecSeqLength = `Максимальная длина рекуррентной последовательности для регистра: ${maxLengthFormula}`;
 
-  const messagesArr = [startDataMsg, maxPeriodMsg];
+  const messagesArr = [
+    registerParametersMsg,
+    polynomialFormulaMsg,
+    binaryPolynomialMsg,
+    startStateMsg,
+    nodeListMsg,
+    maxPeriodLength,
+    maxRecSeqLength
+  ];
 
   console.log(messages.emptyLineMsg);
   for (let i = 0; i < messagesArr.length; i++) {
@@ -61,16 +61,35 @@ const printStartData = (polynomial) => {
   }
 };
 
-const printPeriodTable = (period) => {
-  const periodTable = getPeriodTable(period);
+const printAllPeriodsTable = (allPeriods) => {
+  const numberOfPeriods = allPeriods.length;
 
-  console.log(messages.emptyLineMsg);
-  console.log('Проведем моделирование работы ЛРР, представив таблицу смены его состояний:');
+  for (let i = 0; i < numberOfPeriods; i++) {
+    const currentPeriod = allPeriods[i];
 
-  for (let j = 0; j < periodTable.length; j++) {
-    const row = periodTable[j];
+    const periodTable = getPeriodTable(currentPeriod);
+    const periodRecSeqIterations = getPeriodSums(currentPeriod);
+    const periodRecSeq = getRecSeq(periodRecSeqIterations);
+    const periodLength = currentPeriod.length;
 
-    console.log(row);
+    const recSeqMsg = `ЛРП: ${periodRecSeq}`;
+    const periodLengthMsg = `Период равен ${periodLength}`;
+
+    console.log(messages.emptyLineMsg);
+    if (i === 0) {
+      console.log('Моделирование работы ЛРР в виде таблицы смены его состояний:');
+    } else {
+      console.log('Моделирование работы ЛРР с неиспользованным ранее состоянием в качестве начального:');
+    }
+
+    for (let j = 0; j < periodTable.length; j++) {
+      const row = periodTable[j];
+  
+      console.log(row);
+    }
+
+    console.log(recSeqMsg);
+    console.log(periodLengthMsg);
   }
 };
 
@@ -78,7 +97,7 @@ const printNodesTable = (period, nodesResults) => {
   const nodesTable = getNodesTable(period, nodesResults);
 
   console.log(messages.emptyLineMsg);
-  console.log('Проведем моделирование работы формирователя случайной гаммы, представив таблицу смены его состояний:');
+  console.log('Проведем моделирование работы формирователя случайной гаммы (для периода максимальной длины), представив таблицу смены его состояний:');
 
   for (let j = 0; j < nodesTable.length; j++) {
     const row = nodesTable[j];
@@ -88,12 +107,12 @@ const printNodesTable = (period, nodesResults) => {
 };
 
 const printSequences = (recSeqRegister, firstNodeSequence, secondNodeSequence, thirdNodeSequence) => {
-  const sequencesMsg = 'Получили следующие последовательности:';
+  const sequencesMsg = 'Получены следующие последовательности:';
 
-  const recSeqRegisterMsg = `ЛРП:         ${recSeqRegister}`;
-  const firstNodeSequenceMsg = `Узел 1:      ${firstNodeSequence}`;
-  const secondNodeSequenceMsg = `Узел 2:      ${secondNodeSequence}`;
-  const thirdNodeSequenceMsg = `Узел 3 (ШГ): ${thirdNodeSequence}`;
+  const recSeqRegisterMsg =     `ЛРП (выход регистра): ${recSeqRegister}`;
+  const firstNodeSequenceMsg =  `Выход узла 1:         ${firstNodeSequence}`;
+  const secondNodeSequenceMsg = `Выход узла 2:         ${secondNodeSequence}`;
+  const thirdNodeSequenceMsg =  `Выход узла 3 (СГ):    ${thirdNodeSequence}`;
 
   const messagesArr = [sequencesMsg, recSeqRegisterMsg, firstNodeSequenceMsg, secondNodeSequenceMsg, thirdNodeSequenceMsg];
 
@@ -125,7 +144,7 @@ const printRecSeqAnalysisResults = (recSeq, sequenceType) => {
     sequenceNameDeclinated = 'последовательность';
   }
 
-  const analysisMsg = `Исследуем полученную ${sequenceNameDeclinated}:`;
+  const analysisMsg = `Исследуем полученную ${sequenceNameDeclinated} (для периода максимальной длины):`;
   const recSeqMsg = `${sequenceName}: ${recSeq}.`;
   const recSeqPeriodMsg = `Период последовательности: ${recSeqPeriod}.`;
   const recSeqBalanceMsg = `Баланс единиц и нулей: ${recSeqBalance.ones} единиц, ${recSeqBalance.zeroes} нулей.`;
@@ -180,9 +199,8 @@ const printRecSeqAnalysisResults = (recSeq, sequenceType) => {
 export {
   errors,
   messages,
-  printVariantData,
-  printStartData,
-  printPeriodTable,
+  printRegisterParametersData,
+  printAllPeriodsTable,
   printRecSeqAnalysisResults,
   printNodesTable,
   printSequences

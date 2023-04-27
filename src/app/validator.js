@@ -1,15 +1,11 @@
 import { errors, messages } from './messenger.js';
-import { getLongestPeriodData } from './utils/getMessageInfo/getLongestPeriodData.js';
 
 const validatePolynomial = (polynomial) => {
   const areCharactersNotAllowed = !(/[0-5]/g).test(polynomial);
   const isRepeated = (/([0-5])(?=\1)/g).test(polynomial);
-  const noZero = Boolean(polynomial.indexOf(0));
-  const noFive = Boolean(polynomial.indexOf(5));
+  const noZero = Boolean(polynomial.indexOf('0') === -1);
+  const noFive = Boolean(polynomial.indexOf('5') === -1);
   const noOrderDesc = polynomial.split('').sort((a, b) => b - a).join('') !== polynomial;
-
-  console.log(noZero);
-  console.log(noFive);
 
   const polynomialErrors = [];
 
@@ -98,22 +94,4 @@ const validateData = (data) => {
   return true;
 };
 
-const validatePeriod = (polynomial, periodStates) => {
-  const { maxPeriodLength } = getLongestPeriodData(polynomial);
-
-  const currentPeriodLength = periodStates.length;
-
-  if (currentPeriodLength !== maxPeriodLength) {
-    console.log(messages.emptyLineMsg);
-    console.log(errors.invalidPeriod);
-
-    console.log(messages.tryAgainMsg);
-    console.log(messages.emptyLineMsg);
-
-    return false;
-  }
-
-  return true;
-};
-
-export { validateData, validatePeriod };
+export { validateData };
