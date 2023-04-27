@@ -6,6 +6,8 @@ import { getStartState } from './app/registerParamsCalc/getStartState.js';
 import { getAddictiveBits } from './app/registerParamsCalc/getAddictiveBits.js';
 
 import { getPeriod } from './app/periodCalc/getPeriod.js';
+import { getPeriodStates } from './app/periodCalc/getPeriodStates.js';
+import { getNodesResults } from './app/nodesCalc/getNodesResults.js';
 
 import { printResults } from './app/messenger.js';
 
@@ -28,6 +30,11 @@ const addictiveBits = getAddictiveBits(binaryPolynomial);
 const period = getPeriod(startState, addictiveBits);
 
 const isPeriodValid = validatePeriod(period, polynomial);
+
+const periodStates = getPeriodStates(period);
+const nodesResults = getNodesResults(nodes, periodStates);
+
+console.log(nodesResults);
 
 if (isPeriodValid) {
   printResults(polynomial, listNumber, randomNumber, period, nodes);
