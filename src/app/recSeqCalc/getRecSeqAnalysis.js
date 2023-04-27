@@ -1,5 +1,5 @@
 import { getRecSeq } from './getRecSeq.js';
-import { getPeriodStates } from './getPeriodStates.js';
+import { getPeriodStates } from '../periodCalc/getPeriodStates.js';
 
 const getRecSeqAnalysis = (period) => {
   const states = getPeriodStates(period);

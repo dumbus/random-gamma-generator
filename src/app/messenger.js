@@ -1,8 +1,8 @@
-import { getPolynomialFormula } from './utils/getPolynomialFormula.js';
-import { getStartStateFormula } from './utils/getStartStateFormula.js';
-import { getNodeList } from './utils/getNodeList.js';
-import { getLongestPeriodData } from './registerParamsCalc/getLongestPeriodData.js';
-import { getPeriodTable } from './utils/getPeriodTable.js';
+import { getPolynomialFormula } from './utils/getMessageInfo/getPolynomialFormula.js';
+import { getStartStateFormula } from './utils/getMessageInfo/getStartStateFormula.js';
+import { getNodeList } from './utils/getMessageInfo/getNodeList.js';
+import { getLongestPeriodData } from './utils/getMessageInfo/getLongestPeriodData.js';
+import { getPeriodTable } from './utils/getMessageInfo/getPeriodTable.js';
 import { getRecSeqAnalysis } from './recSeqCalc/getRecSeqAnalysis.js';
 
 const errors = {

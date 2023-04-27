@@ -1,4 +1,4 @@
-import { getRawColumns } from './getRawColumns.js';
+import { getRawColumns } from '../getRawColumns.js';
 
 const getPeriodTable = (period) => {
   const rawColumns = getRawColumns(period);

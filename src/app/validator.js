@@ -1,5 +1,5 @@
 import { errors, messages } from './messenger.js';
-import { getLongestPeriodData } from './registerParamsCalc/getLongestPeriodData.js';
+import { getLongestPeriodData } from './utils/getMessageInfo/getLongestPeriodData.js';
 
 const validatePolynomial = (polynomial) => {
   const regex = /[0-5]/g;
