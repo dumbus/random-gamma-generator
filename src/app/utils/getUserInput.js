@@ -7,8 +7,7 @@ const getData = async () => {
   const rl = readline.createInterface({ input, output });
 
   const polynomial = await rl.question(messages.inputPolynomialMsg);
-  const listNumber = await rl.question(messages.inputListNumberMsg);
-  let randomNumber = await rl.question(messages.inputRandomNumberMsg);
+  const startNumber = await rl.question(messages.inputStartNumberMsg);
 
   const firstNode = (await rl.question(messages.inputFirstNode)).toUpperCase();
   const secondNode = (await rl.question(messages.inputSecondNode)).toUpperCase();
@@ -16,11 +15,7 @@ const getData = async () => {
 
   const nodes = [firstNode, secondNode, thirdNode];
 
-  if (randomNumber === '') {
-    randomNumber = '1';
-  }
-
-  const data = { polynomial, listNumber, randomNumber, nodes };
+  const data = { polynomial, startNumber, nodes };
 
   rl.close();
 

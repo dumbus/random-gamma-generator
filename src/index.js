@@ -31,10 +31,10 @@ while (!isDataValid) {
   isDataValid = validateData(data);
 }
 
-const { polynomial, listNumber, randomNumber, nodes } = data;
+const { polynomial, startNumber, nodes } = data;
 
 const binaryPolynomial = getBinaryPolynomial(polynomial);
-const startState = getStartState(listNumber, randomNumber);
+const startState = getStartState(startNumber);
 const addictiveBits = getAddictiveBits(binaryPolynomial);
 
 const period = getPeriod(startState, addictiveBits);
@@ -51,8 +51,8 @@ const secondNodeSequence = getRecSeq(nodesResults[1]);
 const thirdNodeSequence = getRecSeq(nodesResults[2]);
 
 if (isPeriodValid) {
-  printVariantData(polynomial, listNumber, randomNumber, nodes);
-  printStartData(polynomial, listNumber);
+  printVariantData(polynomial, startNumber, startState, nodes);
+  printStartData(polynomial, startNumber);
   printPeriodTable(period);
   printRecSeqAnalysisResults(recSeqRegister, 'register');
   printNodesTable(period, nodesResults);

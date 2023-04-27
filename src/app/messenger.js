@@ -1,5 +1,4 @@
 import { getPolynomialFormula } from './utils/getMessageInfo/getPolynomialFormula.js';
-import { getStartStateFormula } from './utils/getMessageInfo/getStartStateFormula.js';
 import { getNodeList } from './utils/getMessageInfo/getNodeList.js';
 import { getLongestPeriodData } from './utils/getMessageInfo/getLongestPeriodData.js';
 import { getPeriodTable } from './utils/getMessageInfo/getPeriodTable.js';
@@ -8,35 +7,36 @@ import { getRecSeqAnalysis } from './recSeqCalc/getRecSeqAnalysis.js';
 
 const errors = {
   invalidData: 'Возникли ошибки при вводе данных:',
-  invalidPolynomial: 'Ошибка: Неверно введён характеристический многочлен!',
-  invalidListNumber: 'Ошибка: Неверно введён номер в списке группы!',
-  invalidRandomNumber: 'Ошибка: Неверно введено случайное число!',
-  invalidFirstNode: 'Ошибка: Неверно введён первый нелинейный узел!',
-  invalidSecondNode: 'Ошибка: Неверно введён второй нелинейный узел!',
-  invalidThirdNode: 'Ошибка: Неверно введён третий нелинейный узел!',
+  invalidPolynomialNotAllowedChars: 'Ошибка: Использованы недопустимые символы при вводе степеней характеристического многочлена h(x)!',
+  invalidPolynomialDoubles: 'Ошибка: В степенях коэффициентов многочлена h(x) не может быть повторений!',
+  invalidPolynomialNoDecsOrder: 'Ошибка: Степени коэффициентов многочлена h(x) должны быть указаны по убыванию!',
+  invalidPolynomialNoZero: 'Ошибка: В степенях коэффициентов многочлена h(x) обязательно должен присутствовать символ "0"',
+  invalidPolynomialNoFive: 'Ошибка: В степенях коэффициентов многочлена h(x) обязательно должен присутствовать символ "5"',
+  invalidStartNumber: 'Ошибка: Начальное положение регистра должно быть числом от 1 до 31!',
+  invalidFirstNode: 'Ошибка: Указано недопустимое значение в качестве первого нелинейного узла!',
+  invalidSecondNode: 'Ошибка: Указано недопустимое значение в качестве второго нелинейного узла!',
+  invalidThirdNode: 'Ошибка: Указано недопустимое значение в качестве третьего нелинейного узла!',
   invalidPeriod: 'Длина периода не равна максимальной, дальнейшие вычисления невозможны!'
 };
 
 const messages = {
-  inputPolynomialMsg: 'Введите характеристический многочлен согласно варианту: ',
-  inputListNumberMsg: 'Введите ваш номер в списке группы: ',
-  inputRandomNumberMsg: 'Введите случайное число, заданное преподавателем(или нажмите Enter для ввода значения по умолчанию): ',
-  inputFirstNode: 'Введите первый нелинейный узел (возможные варианты: И, ИЛИ, И-НЕ, ИЛИ-НЕ): ',
-  inputSecondNode: 'Введите второй нелинейный узел (возможные варианты: И, ИЛИ, И-НЕ, ИЛИ-НЕ): ',
-  inputThirdNode: 'Введите третий нелинейный узел (возможные варианты: УЛ, ДЖ): ',
+  inputPolynomialMsg: 'Введите степени коэффициентов характеристического многочлена h(x) по убыванию (степени "5" и "0" являются обязательными): ',
+  inputStartNumberMsg: 'Введите начальное положение регистра в десятичной системе счисления (число от 1 до 31): ',
+  inputFirstNode: 'Введите первый нелинейный узел генератора случайной гаммы (возможные варианты: И, ИЛИ, И-НЕ, ИЛИ-НЕ): ',
+  inputSecondNode: 'Введите второй нелинейный узел генератора случайной гаммы (возможные варианты: И, ИЛИ, И-НЕ, ИЛИ-НЕ): ',
+  inputThirdNode: 'Введите третий нелинейный узел генератора случайной гаммы (возможные варианты: УЛ, ДЖ): ',
   tryAgainMsg: '!!! Проверьте данные и попробуйте ещё раз !!!',
   inputExitCommand: '!!! Расчёты завершены, нажмите Enter, чтобы завершить выполнение программы. !!!',
   emptyLineMsg: ''
 };
 
-const printVariantData = (polynomial, listNumber, randomNumber, nodes) => {
+const printVariantData = (polynomial, startNumber, startState, nodes) => {
   const polynomialFormula = getPolynomialFormula(polynomial);
-  const startStateFormula = getStartStateFormula(listNumber, randomNumber);
   const nodeList = getNodeList(nodes);
 
-  const variantMsg = 'Вариант:';
-  const polynomialFormulaMsg = `№${listNumber}: h(x) = ${polynomialFormula}`;
-  const startStateMsg = `Начальное заполнение регистра: S = ${startStateFormula}`;
+  const variantMsg = 'Параметры регистра:';
+  const polynomialFormulaMsg = `Характеристический многочлен: h(x) = ${polynomialFormula}`;
+  const startStateMsg = `Начальное заполнение регистра: S = ${startNumber} = ${startState}`;
   const nodeListMsg = `Нелинейные узлы 1, 2, 3: ${nodeList}`;
 
   const messagesArr = [variantMsg, polynomialFormulaMsg, startStateMsg, nodeListMsg];
@@ -49,8 +49,6 @@ const printVariantData = (polynomial, listNumber, randomNumber, nodes) => {
 
 const printStartData = (polynomial) => {
   const startDataMsg = 'Выполнение работы:';
-  // const startStateMsg = `Начальное заполнение – номер по списку в двоичном виде, младший разряд справа: ${listNumber} = ${startState}`;
-
   const { maxLengthFormula, notExistingStateMsg } = getLongestPeriodData(polynomial);
 
   const maxPeriodMsg = `Максимальный период рекуррентной последовательности для регистра заданным примитивным многочленом: ${maxLengthFormula}, ${notExistingStateMsg}`;
@@ -178,15 +176,6 @@ const printRecSeqAnalysisResults = (recSeq, sequenceType) => {
     console.log(`${i + 1}) ${analysisMessages[i]}`);
   }
 };
-
-// const printResults = (polynomial, listNumber, randomNumber, nodes, period, recSeqRegister, nodesResults) => {
-//   printVariantData(polynomial, listNumber, randomNumber, nodes);
-//   printStartData(polynomial, listNumber);
-//   printPeriodTable(period);
-//   printRecSeqAnalysisResults(recSeqRegister);
-//   printNodesTable(period, nodesResults);
-//   printSequences(recSeqRegister, firstNodeSequence, secondNodeSequence, thirdNodeSequence);
-// };
 
 export {
   errors,
