@@ -4,7 +4,7 @@ import { getSum } from './getSum.js';
 const getPeriod = (startState, addictiveBits) => {
   const stateArr = [];
   const sumArr = [];
-  const periodItems = [];
+  const period = [];
 
   let state = startState;
   let sum;
@@ -21,7 +21,7 @@ const getPeriod = (startState, addictiveBits) => {
 
     stateArr.push(state);
     sumArr.push(sum);
-    periodItems.push(periodItem);
+    period.push(periodItem);
 
     const newState = getNewState(state, sum);
 
@@ -32,7 +32,7 @@ const getPeriod = (startState, addictiveBits) => {
     state = newState;
   }
 
-  return periodItems;
+  return period;
 };
 
 export { getPeriod };

@@ -1,12 +1,10 @@
-import { getLongestPeriod } from '../utils/getLongestPeriod.js';
-import { getRecSeq } from './getRecSeq.js';
-import { getPeriodStates } from './getPeriodStates.js';
+// import { getRecSeq } from './getRecSeq.js';
+// import { getPeriodStates } from '../periodCalc/getPeriodStates.js';
+// import { getPeriodSums } from '../periodCalc/getPeriodSums.js';
+import { getRecSeqStates } from './getRecSeqStates.js';
 
-const getRecSeqAnalysis = (allPeriods) => {
-  const longestPeriod = getLongestPeriod(allPeriods);
-  const states = getPeriodStates(longestPeriod);
-
-  const recSeq = getRecSeq(longestPeriod);
+const getRecSeqAnalysis = (recSeq) => {
+  const recSeqStates = getRecSeqStates(recSeq);
 
   // get period of recurrent sequence
   const recSeqPeriod = recSeq.length;
@@ -51,12 +49,14 @@ const getRecSeqAnalysis = (allPeriods) => {
   }
 
   // check if "window" property is fulfilled
-  const uniqueStates = new Set(states);
+  const uniqueStates = new Set(recSeqStates);
 
   const numberOfUniqueStates = uniqueStates.size;
+  const numberOfStates = recSeqStates.length;
 
   const windowProperty = {
-    states,
+    recSeqStates,
+    numberOfStates,
     numberOfUniqueStates,
     isFulfilled: true
   };
@@ -67,7 +67,6 @@ const getRecSeqAnalysis = (allPeriods) => {
 
   // create object with analysis results
   const recSeqAnalysisResults = {
-    recSeq,
     recSeqPeriod,
     recSeqBalance,
     recSeqSeries,

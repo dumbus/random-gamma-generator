@@ -1,7 +1,7 @@
-const getRawColumns = (period) => {
+const getRawPeriodColumns = (period) => {
   const periodLength = period.length;
 
-  const rawColumns = [];
+  const rawPeriodColumns = [];
 
   // № column
   const numberOfRoundColumn = ['№'];
@@ -11,7 +11,7 @@ const getRawColumns = (period) => {
 
     numberOfRoundColumn.push(currentNumber);
   }
-  rawColumns.push(numberOfRoundColumn);
+  rawPeriodColumns.push(numberOfRoundColumn);
 
   // state column
   const stateColumn = ['Состояние'];
@@ -21,7 +21,7 @@ const getRawColumns = (period) => {
 
     stateColumn.push(currentPeriod);
   }
-  rawColumns.push(stateColumn);
+  rawPeriodColumns.push(stateColumn);
 
   // sum column
   const sumColumn = ['Результат суммы'];
@@ -31,9 +31,9 @@ const getRawColumns = (period) => {
 
     sumColumn.push(currentSum);
   }
-  rawColumns.push(sumColumn);
+  rawPeriodColumns.push(sumColumn);
 
-  return rawColumns;
+  return rawPeriodColumns;
 };
 
-export { getRawColumns };
+export { getRawPeriodColumns };

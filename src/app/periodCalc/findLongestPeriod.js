@@ -1,4 +1,4 @@
-const getLongestPeriod = (allPeriods) => {
+const findLongestPeriod = (allPeriods) => {
   let maxLength = 0;
   let indexOfMaxPeriod = 0;
 
@@ -18,4 +18,4 @@ const getLongestPeriod = (allPeriods) => {
   return longestPeriod;
 };
 
-export { getLongestPeriod };
+export { findLongestPeriod };
