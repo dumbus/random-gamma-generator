@@ -11,7 +11,7 @@
 
 1. Склонировать репозиторий:
 ```
-https://github.com/dumbus/random-gamma-generator.git
+git clone https://github.com/dumbus/random-gamma-generator.git
 ```
 
 2. Переместиться в скачанный репозиторий:
