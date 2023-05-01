@@ -843,6 +843,30 @@ const getRecSeqStates = (recSeq) => {
   return recSeqStates;
 };
 
+const getNotRepeatedStates = (recSeqStates) => {
+  const numberOfStates = {};
+
+  for (let i = 0; i < recSeqStates.length; i++) {
+    const currentState = recSeqStates[i];
+
+    if ((Object.keys(numberOfStates)).includes(currentState)) {
+      numberOfStates[currentState] += 1;
+    } else {
+      numberOfStates[currentState] = 1;
+    }
+  }
+
+  const notRepeatedStates = [];
+
+  const statesEntries = Object.entries(numberOfStates);
+
+  for (const [key, value] of statesEntries) {
+    if (value === 1) notRepeatedStates.push(key);
+  }
+
+  return notRepeatedStates;
+};
+
 const getRecSeqAnalysis = (recSeq) => {
   const recSeqStates = getRecSeqStates(recSeq);
 
@@ -889,9 +913,9 @@ const getRecSeqAnalysis = (recSeq) => {
   }
 
   // check if "window" property is fulfilled
-  const uniqueStates = new Set(recSeqStates);
+  const uniqueStates = getNotRepeatedStates(recSeqStates);
 
-  const numberOfUniqueStates = uniqueStates.size;
+  const numberOfUniqueStates = uniqueStates.length;
   const numberOfStates = recSeqStates.length;
 
   const windowProperty = {
@@ -901,7 +925,7 @@ const getRecSeqAnalysis = (recSeq) => {
     isFulfilled: true
   };
 
-  if (numberOfUniqueStates !== recSeqPeriod) {
+  if (numberOfUniqueStates !== numberOfStates) {
     windowProperty.isFulfilled = false;
   }
 
