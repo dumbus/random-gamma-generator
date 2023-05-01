@@ -1,20 +1,25 @@
 const getNotRepeatedStates = (recSeqStates) => {
-  const notRepeatedStates = [];
+  const numberOfStates = {};
 
   for (let i = 0; i < recSeqStates.length; i++) {
     const currentState = recSeqStates[i];
 
-    if (!notRepeatedStates.includes(currentState)) {
-      notRepeatedStates.push(currentState);
+    if ((Object.keys(numberOfStates)).includes(currentState)) {
+      numberOfStates[currentState] += 1;
     } else {
-      const indexOfRepeat = notRepeatedStates.indexOf(currentState);
-      notRepeatedStates[indexOfRepeat] = null;
+      numberOfStates[currentState] = 1;
     }
   }
 
-  const result = notRepeatedStates.filter(state => state !== null);
+  const notRepeatedStates = [];
 
-  return result;
+  const statesEntries = Object.entries(numberOfStates);
+
+  for (const [key, value] of statesEntries) {
+    if (value === 1) notRepeatedStates.push(key);
+  }
+
+  return notRepeatedStates;
 };
 
 export { getNotRepeatedStates };

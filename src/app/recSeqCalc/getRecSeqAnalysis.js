@@ -49,7 +49,7 @@ const getRecSeqAnalysis = (recSeq) => {
   // check if "window" property is fulfilled
   const uniqueStates = getNotRepeatedStates(recSeqStates);
 
-  const numberOfUniqueStates = uniqueStates.size;
+  const numberOfUniqueStates = uniqueStates.length;
   const numberOfStates = recSeqStates.length;
 
   const windowProperty = {
@@ -59,7 +59,7 @@ const getRecSeqAnalysis = (recSeq) => {
     isFulfilled: true
   };
 
-  if (numberOfUniqueStates !== recSeqPeriod) {
+  if (numberOfUniqueStates !== numberOfStates) {
     windowProperty.isFulfilled = false;
   }
 
