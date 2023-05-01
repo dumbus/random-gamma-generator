@@ -1,7 +1,5 @@
-// import { getRecSeq } from './getRecSeq.js';
-// import { getPeriodStates } from '../periodCalc/getPeriodStates.js';
-// import { getPeriodSums } from '../periodCalc/getPeriodSums.js';
 import { getRecSeqStates } from './getRecSeqStates.js';
+import { getNotRepeatedStates } from '../utils/getNotRepeatedStates.js';
 
 const getRecSeqAnalysis = (recSeq) => {
   const recSeqStates = getRecSeqStates(recSeq);
@@ -49,9 +47,9 @@ const getRecSeqAnalysis = (recSeq) => {
   }
 
   // check if "window" property is fulfilled
-  const uniqueStates = new Set(recSeqStates);
+  const uniqueStates = getNotRepeatedStates(recSeqStates);
 
-  const numberOfUniqueStates = uniqueStates.size;
+  const numberOfUniqueStates = uniqueStates.length;
   const numberOfStates = recSeqStates.length;
 
   const windowProperty = {
@@ -61,7 +59,7 @@ const getRecSeqAnalysis = (recSeq) => {
     isFulfilled: true
   };
 
-  if (numberOfUniqueStates !== recSeqPeriod) {
+  if (numberOfUniqueStates !== numberOfStates) {
     windowProperty.isFulfilled = false;
   }
 
